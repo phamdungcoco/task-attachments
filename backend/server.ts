@@ -13,10 +13,16 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 const upload = multer({ storage: multer.memoryStorage() });
 
 const app = express();
-const PORT = 3001;
 
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }));
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true,
+}));
 app.use(express.json());
+
+app.get('/api/health', (_req, res) => {
+  res.json({ ok: true });
+});
 
 // Task Routes
 app.get('/api/tasks', taskController.listTasks);
@@ -29,6 +35,12 @@ app.delete('/api/tasks/:id/attachment', taskController.deleteAttachment);
 app.get('/api/messages', chatController.listMessages);
 app.post('/api/messages', chatController.sendMessage);
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
-});
+export default app;
+
+// Chỉ listen khi chạy local
+if (process.env.NODE_ENV !== 'production') {
+  const port = Number(process.env.PORT || 3001);
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`Backend running on http://localhost:${port}`);
+  });
+}

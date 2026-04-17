@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Task, TaskStatus } from '../types.ts';
 import { CheckCircle2, Circle, Clock, Paperclip, ExternalLink, Loader2, Upload, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { apiFetch } from '../lib/api.ts';
 
 interface TaskItemProps {
   task: Task;
@@ -15,7 +16,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const handleStatusChange = async (newStatus: TaskStatus) => {
     setIsUpdating(true);
     try {
-      await fetch(`/api/tasks/${task.id}/status`, {
+      await apiFetch(`/api/tasks/${task.id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -37,7 +38,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
     formData.append('file', file);
 
     try {
-      const response = await fetch(`/api/tasks/${task.id}/attachment`, {
+      const response = await apiFetch(`/api/tasks/${task.id}/attachment`, {
         method: 'POST',
         body: formData,
       });
@@ -55,7 +56,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
     // Note: window.confirm might not work in all iframe environments
     setIsDeleting(true);
     try {
-      const response = await fetch(`/api/tasks/${task.id}/attachment`, {
+      const response = await apiFetch(`/api/tasks/${task.id}/attachment`, {
         method: 'DELETE',
       });
       if (response.ok) {

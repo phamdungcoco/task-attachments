@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { apiFetch } from '../lib/api.ts';
 
 export const TaskForm: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -19,7 +20,7 @@ export const TaskForm: React.FC = () => {
     if (file) formData.append('file', file);
 
     try {
-      const response = await fetch('/api/tasks', {
+      const response = await apiFetch('/api/tasks', {
         method: 'POST',
         body: formData,
       });

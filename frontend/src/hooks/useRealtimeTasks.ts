@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getSupabase } from '../lib/supabase.ts';
+import { apiFetch } from '../lib/api.ts';
 import { Task } from '../types.ts';
 
 export function useRealtimeTasks() {
@@ -9,7 +10,7 @@ export function useRealtimeTasks() {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch('/api/tasks');
+      const response = await apiFetch('/api/tasks');
       if (!response.ok) throw new Error('Failed to fetch tasks');
       const data = await response.json();
       setTasks(data);

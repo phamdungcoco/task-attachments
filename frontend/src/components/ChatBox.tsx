@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getSupabase } from '../lib/supabase.ts';
+import { apiFetch } from '../lib/api.ts';
 import { ChatMessage } from '../types.ts';
 import { Send, User, MessageSquare, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -16,7 +17,7 @@ export const ChatBox: React.FC = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch('/api/messages');
+      const response = await apiFetch('/api/messages');
       if (response.ok) {
         const data = await response.json();
         setMessages(data);
@@ -89,7 +90,7 @@ export const ChatBox: React.FC = () => {
     setNewMessage('');
 
     try {
-      await fetch('/api/messages', {
+      await apiFetch('/api/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_name: userName, content }),
