@@ -110,7 +110,7 @@ export const ChatBox: React.FC = () => {
   };
 
   return (
-    <div className="w-80 bg-white border-l border-[var(--color-border)] flex flex-col h-full overflow-hidden">
+    <div className="w-full bg-white border border-[var(--color-border)] flex flex-col h-full overflow-hidden">
       <div className="p-4 border-b border-[var(--color-border)] bg-[#F8F9FA] flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -156,7 +156,7 @@ export const ChatBox: React.FC = () => {
                 <span className="text-[10px] font-bold text-gray-400 tracking-tight uppercase">{msg.user_name}</span>
                 <span className="text-[9px] text-gray-300">{new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
               </div>
-              <div className={`max-w-[85%] px-3 py-2 text-sm ${
+              <div className={`max-w-[60%] px-3 py-2 text-sm ${
                 msg.user_name === userName 
                   ? 'bg-[var(--color-brand)] text-white' 
                   : 'bg-[#F6F9FC] text-[#525F7F] border border-[var(--color-border)]'
